@@ -17,10 +17,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Api App',
       debugShowCheckedModeBanner: false,
-      home: BlocProvider(
-        create: (context) => ApiBloc(methods: 'users', requestType: RequestType.GET),
-        child: HomePage(),
-      ),
+      home: HomePage(),
     );
   }
 }
