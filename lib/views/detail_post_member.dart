@@ -84,7 +84,7 @@ class DetailPostMember extends StatelessWidget {
                     );
                   },
                 ) : Center(
-                  child: Text('Member is empty'),
+                  child: Text('${userModel.name} doesn\'t have any post'),
                 ),
               );
             }
