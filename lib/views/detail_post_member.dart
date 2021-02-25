@@ -18,10 +18,10 @@ class DetailPostMember extends StatelessWidget {
         create: (context) => ApiBloc(methods: 'posts?userId=${userModel.id}', requestType: RequestType.GET, context: context),
         child: BlocBuilder<ApiBloc, ApiState>(
           builder: (context, state) {
-            if (state is ApiEmpty) {
+            if (state is IsEmpty) {
               BlocProvider.of<ApiBloc>(context).add(FetchApi());
             }
-            if (state is ApiError) {
+            if (state is IsError) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -37,7 +37,7 @@ class DetailPostMember extends StatelessWidget {
                 ],
               );
             }
-            if (state is ApiNetworkError) {
+            if (state is IsNetworkError) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -53,7 +53,7 @@ class DetailPostMember extends StatelessWidget {
                 ],
               );
             }
-            if (state is ApiLoaded) {
+            if (state is IsLoaded) {
               List<PostModel> postModel = [];
               List item = state.response;
               item.forEach((element) {

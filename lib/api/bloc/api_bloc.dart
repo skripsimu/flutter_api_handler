@@ -13,25 +13,25 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
   final BuildContext context;
   RequestType requestType = RequestType.GET;
 
-  ApiBloc({this.methods, this.requestType, this.context}) : assert(methods != null), super(ApiEmpty());
+  ApiBloc({this.methods, this.requestType, this.context}) : assert(methods != null), super(IsEmpty());
   @override
   Stream<ApiState> mapEventToState(ApiEvent event) async* {
     if (event is FetchApi) {
-      yield ApiLoading();
+      yield IsLoading();
       try {
         final result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           try {
             final response = await repository.fetchApi(methods, requestType: requestType);
-            yield ApiLoaded(response: response);
+            yield IsLoaded(response: response);
           } catch (_) {
             Utility.customToast(context, message: 'Error connection with server, please try again later');
-            yield ApiError();
+            yield IsError();
           }
         }
       } catch (_) {
         Utility.customToast(context, message: 'No internet connection, please try again later');
-        yield ApiNetworkError();
+        yield IsNetworkError();
       }
     }
   }

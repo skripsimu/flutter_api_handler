@@ -9,19 +9,19 @@ abstract class ApiState extends Equatable {
   List<Object> get props => [];
 }
 
-class ApiEmpty extends ApiState {}
+class IsEmpty extends ApiState {}
 
-class ApiLoading extends ApiState {}
+class IsLoading extends ApiState {}
 
-class ApiLoaded extends ApiState {
+class IsLoaded extends ApiState {
   final response;
 
-  const ApiLoaded({@required this.response}) : assert(response != null);
+  const IsLoaded({@required this.response}) : assert(response != null);
 
   @override
   List<Object> get props => [response];
 }
 
-class ApiError extends ApiState {}
+class IsError extends ApiState {}
 
-class ApiNetworkError extends ApiState {}
+class IsNetworkError extends ApiState {}
