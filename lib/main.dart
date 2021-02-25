@@ -10,7 +10,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Api App',
+      title: 'Api Handler',
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );

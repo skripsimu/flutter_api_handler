@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Api Request Example'),
+        title: Text('Api Handler'),
       ),
       body: BlocProvider(
         create: (context) => ApiBloc(methods: 'users', requestType: RequestType.GET, context: context),
