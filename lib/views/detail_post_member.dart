@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_api_handler/api/repositories/api_repository.dart';
-import 'package:flutter_api_handler/models/models.dart';
-import 'package:flutter_api_handler/views/detail_post_member.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_api_handler/api/bloc/bloc.dart';
+import 'package:flutter_api_handler/api/repositories/repositories.dart';
+import 'package:flutter_api_handler/models/models.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-// ignore: must_be_immutable
-class HomePage extends StatelessWidget {
-  List<UserModel> userModel = [];
-
+class DetailPostMember extends StatelessWidget {
+  final UserModel userModel;
+  DetailPostMember(this.userModel);
+  List<PostModel> postModel = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Api Request Example'),
+        title: Text(userModel.name),
       ),
       body: BlocProvider(
-        create: (context) => ApiBloc(methods: 'users', requestType: RequestType.GET, context: context),
+        create: (context) => ApiBloc(methods: 'posts?userId=${userModel.id}', requestType: RequestType.GET, context: context),
         child: BlocBuilder<ApiBloc, ApiState>(
           builder: (context, state) {
             if (state is ApiEmpty) {
@@ -57,34 +57,29 @@ class HomePage extends StatelessWidget {
             if (state is ApiLoaded) {
               List item = state.response;
               item.forEach((element) {
-                userModel.add(UserModel.fromJson(element));
+                postModel.add(PostModel.fromJson(element));
               });
               return RefreshIndicator(
                 onRefresh: () async {
                   BlocProvider.of<ApiBloc>(context).add(FetchApi());
                 },
-                child: userModel.isNotEmpty ? ListView.builder(
+                child: postModel.isNotEmpty ? ListView.builder(
                   itemCount: item.length,
                   itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailPostMember(userModel[index])));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border(
-                            bottom: BorderSide(color: Colors.grey),
-                          ),
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(userModel[index].name),
-                            Text(userModel[index].website + ' | ' + userModel[index].email, style: TextStyle(color: Colors.grey, fontSize: 13)),
-                          ],
-                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(postModel[index].title),
+                          Text(postModel[index].body, style: TextStyle(color: Colors.grey, fontSize: 13)),
+                        ],
                       ),
                     );
                   },

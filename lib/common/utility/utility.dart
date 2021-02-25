@@ -1,8 +1,21 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class Utility {
+  BuildContext context;
+
+  Utility(BuildContext context) {
+    this.context = context;
+  }
+
+  double getScreenWidth() {
+    return MediaQuery.of(context).size.width;
+  }
+
+  double getScreenHeight() {
+    return MediaQuery.of(context).size.height;
+  }
+
   static customToast(BuildContext context, {@required String message, Color color}) {
     return showToast(message,
           context: context,
