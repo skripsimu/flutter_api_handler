@@ -5,9 +5,7 @@ import 'package:flutter_api_handler/views/detail_post_member.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_api_handler/api/bloc/bloc.dart';
 
-// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
-  List<UserModel> userModel = [];
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +53,7 @@ class HomePage extends StatelessWidget {
               );
             }
             if (state is ApiLoaded) {
+              List<UserModel> userModel = [];
               List item = state.response;
               item.forEach((element) {
                 userModel.add(UserModel.fromJson(element));
@@ -89,7 +88,7 @@ class HomePage extends StatelessWidget {
                     );
                   },
                 ) : Center(
-                  child: Text('Member is empty'),
+                  child: Text('There are no members available to you at this time'),
                 ),
               );
             }

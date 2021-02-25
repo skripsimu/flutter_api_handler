@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DetailPostMember extends StatelessWidget {
   final UserModel userModel;
   DetailPostMember(this.userModel);
-  List<PostModel> postModel = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +54,7 @@ class DetailPostMember extends StatelessWidget {
               );
             }
             if (state is ApiLoaded) {
+              List<PostModel> postModel = [];
               List item = state.response;
               item.forEach((element) {
                 postModel.add(PostModel.fromJson(element));
