@@ -14,20 +14,42 @@ class HomePage extends StatelessWidget {
         title: Text('Api Request Example'),
       ),
       body: BlocProvider(
-        create: (context) => ApiBloc(methods: 'users', requestType: RequestType.GET),
+        create: (context) => ApiBloc(methods: 'users', requestType: RequestType.GET, context: context),
         child: BlocBuilder<ApiBloc, ApiState>(
           builder: (context, state) {
             if (state is ApiEmpty) {
               BlocProvider.of<ApiBloc>(context).add(FetchApi());
             }
             if (state is ApiError) {
-              return Center(
-                child: Text('failed to fetch Api'),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(child: Text('Error connection with server, please try again later')),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        BlocProvider.of<ApiBloc>(context).add(FetchApi());
+                      },
+                      child: Text('Reload', style: TextStyle(decoration: TextDecoration.underline),),
+                    ),
+                  )
+                ],
               );
             }
             if (state is ApiNetworkError) {
-              return Center(
-                child: Text('No internet access'),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(child: Text('No internet connection, please try again later')),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        BlocProvider.of<ApiBloc>(context).add(FetchApi());
+                      },
+                      child: Text('Reload', style: TextStyle(decoration: TextDecoration.underline),),
+                    ),
+                  )
+                ],
               );
             }
             if (state is ApiLoaded) {
