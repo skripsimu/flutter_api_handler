@@ -23,3 +23,5 @@ class ApiLoaded extends ApiState {
 }
 
 class ApiError extends ApiState {}
+
+class ApiNetworkError extends ApiState {}

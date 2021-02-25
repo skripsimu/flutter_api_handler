@@ -4,13 +4,7 @@ import 'package:flutter_api_handler/models/models.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_api_handler/api/bloc/bloc.dart';
 
-class HomePage extends StatefulWidget {
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class HomePage extends StatelessWidget {
   List<UserModel> userModel = [];
 
   @override
@@ -29,6 +23,11 @@ class _HomePageState extends State<HomePage> {
             if (state is ApiError) {
               return Center(
                 child: Text('failed to fetch Api'),
+              );
+            }
+            if (state is ApiNetworkError) {
+              return Center(
+                child: Text('No internet access'),
               );
             }
             if (state is ApiLoaded) {
