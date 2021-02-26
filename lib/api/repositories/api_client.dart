@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter_api_handler/api/config.dart';
 import 'package:http/http.dart' as http;
-import 'api_repository.dart';
 
+enum RequestType{ GET, POST, PUT, PATCH }
 
 class ApiClient {
   final http.Client httpClient = http.Client();

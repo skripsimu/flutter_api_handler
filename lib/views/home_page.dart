@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_api_handler/api/repositories/api_repository.dart';
+import 'package:flutter_api_handler/api/repositories/repositories.dart';
 import 'package:flutter_api_handler/models/models.dart';
 import 'package:flutter_api_handler/views/detail_post_member.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

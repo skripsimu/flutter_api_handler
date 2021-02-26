@@ -1,17 +1,16 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_api_handler/api/repositories/api_client.dart';
 import 'package:flutter_api_handler/api/repositories/repositories.dart';
 import 'package:flutter_api_handler/api/bloc/bloc.dart';
 import 'package:flutter_api_handler/common/common.dart';
 
 
 class ApiBloc extends Bloc<ApiEvent, ApiState> {
-  final ApiRepository repository = ApiRepository(apiClient: ApiClient());
   final String methods;
   final BuildContext context;
   RequestType requestType = RequestType.GET;
+  ApiClient apiClient = ApiClient();
 
   ApiBloc({this.methods, this.requestType, this.context}) : assert(methods != null), super(IsEmpty());
   @override
@@ -22,7 +21,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         final result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           try {
-            final response = await repository.fetchApi(methods, requestType: requestType);
+            final response = await apiClient.fetchApi(methods, requestType: requestType);
             yield IsLoaded(response: response);
           } catch (_) {
             Utility.customToast(context, message: 'Error connection with server, please try again later');
