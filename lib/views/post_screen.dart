@@ -26,14 +26,14 @@ class _PostScreenState extends State<PostScreen> {
                 builder: (context, state) {
                   return RaisedButton(
                     onPressed: () {
-                      if (state is IsEmpty) {
+                      if (state is IsEmpty || state is IsError) {
                         BlocProvider.of<ApiBloc>(context).add(FetchApi());
                       } else if (state is IsLoaded) {
                         Navigator.pop(context);
                       }
                     },
                     color: Colors.blue,
-                    child: state is IsEmpty ? Text('Send', style: TextStyle(color: Colors.white),) : state is IsLoaded ? Text('Done', style: TextStyle(color: Colors.white),) : Container(height: 20, width: 20, child: CircularProgressIndicator(backgroundColor: Colors.white,)),
+                    child: state is IsLoading ? Container(height: 20, width: 20, child: CircularProgressIndicator(backgroundColor: Colors.white,)) : state is IsLoaded ? Text('Done', style: TextStyle(color: Colors.white),) : Text('Post', style: TextStyle(color: Colors.white),),
                   );
                 },
               )
