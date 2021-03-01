@@ -9,13 +9,16 @@ class ApiClient {
 
   Future fetchApi(String methods, {RequestType requestType = RequestType.GET}) async {
     final url = '${Config.baseUrl}/$methods';
+    Map<String, String> headers = {'Content-Type': 'application/json; charset=UTF-8'};
     var response = await this.httpClient.get(url);
     switch (requestType) {
       case RequestType.GET:
       response = await this.httpClient.get(url);
       break;
       case RequestType.POST:
-      response = await this.httpClient.post(url);
+      response = await this.httpClient.post(url, headers: headers, body: jsonEncode(<String, String>{
+        'title': 'haloo',
+      }));
       break;
       case RequestType.PUT:
       response = await this.httpClient.put(url);
@@ -28,9 +31,14 @@ class ApiClient {
     print(response.statusCode);
     print(response.request);
     print(response.body);
-
-    if (response.statusCode != 200) {
-      throw new Exception('error getting Api');
+    if (requestType == RequestType.GET) {
+      if (response.statusCode != 200) {
+        throw new Exception('error getting Api');
+      }
+    } else {
+      if (response.statusCode != 201) {
+        throw new Exception('error getting Api');
+      }
     }
 
     final json = jsonDecode(response.body);

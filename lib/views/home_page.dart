@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_api_handler/api/repositories/repositories.dart';
 import 'package:flutter_api_handler/models/models.dart';
 import 'package:flutter_api_handler/views/detail_post_member.dart';
+import 'package:flutter_api_handler/views/post_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_api_handler/api/bloc/bloc.dart';
 
@@ -12,6 +13,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Api Handler'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => PostScreen()));
+        },
+        child: Icon(Icons.drive_file_move, color: Colors.white,),
       ),
       body: BlocProvider(
         create: (context) => ApiBloc(methods: 'users', requestType: RequestType.GET, context: context),

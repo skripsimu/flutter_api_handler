@@ -9,10 +9,11 @@ import 'package:flutter_api_handler/common/common.dart';
 class ApiBloc extends Bloc<ApiEvent, ApiState> {
   final String methods;
   final BuildContext context;
+  final bool showSuccessToast;
   RequestType requestType = RequestType.GET;
   ApiClient apiClient = ApiClient();
 
-  ApiBloc({this.methods, this.requestType, this.context}) : assert(methods != null), super(IsEmpty());
+  ApiBloc({this.methods, this.requestType, this.context, this.showSuccessToast = false}) : assert(methods != null), super(IsEmpty());
   @override
   Stream<ApiState> mapEventToState(ApiEvent event) async* {
     if (event is FetchApi) {
@@ -22,6 +23,9 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           try {
             final response = await apiClient.fetchApi(methods, requestType: requestType);
+            if (showSuccessToast) {
+              Utility.customToast(context, message: 'Post "${response['title']}" Successfully!', color: Colors.green);
+            }
             yield IsLoaded(response: response);
           } catch (_) {
             Utility.customToast(context, message: 'Error connection with server, please try again later');
