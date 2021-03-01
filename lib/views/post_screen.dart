@@ -19,7 +19,9 @@ class _PostScreenState extends State<PostScreen> {
         children: [
           Center(
             child: BlocProvider(
-              create: (context) => ApiBloc(methods: 'albums', requestType: RequestType.POST, context: context, showSuccessToast: true),
+              create: (context) => ApiBloc(methods: 'albums', requestType: RequestType.POST, context: context, onSuccess: () {
+                Utility.customToast(context, message: 'Post Successfully!', color: Colors.green);
+              }),
               child: BlocBuilder<ApiBloc, ApiState>(
                 builder: (context, state) {
                   return RaisedButton(
