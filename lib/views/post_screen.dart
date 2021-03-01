@@ -26,7 +26,7 @@ class _PostScreenState extends State<PostScreen> {
                 builder: (context, state) {
                   return RaisedButton(
                     onPressed: () {
-                      if (state is IsEmpty || state is IsError) {
+                      if (state is IsEmpty || state is IsError  || state is IsNetworkError ) {
                         BlocProvider.of<ApiBloc>(context).add(FetchApi());
                       } else if (state is IsLoaded) {
                         Navigator.pop(context);
